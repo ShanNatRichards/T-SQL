@@ -4,7 +4,7 @@ CREATE TABLE  voters_removed (id int, address varchar(100), jobtitle varchar(50)
 
 
 INSERT INTO voters_removed
-SELECT  id, address, jobtitle
+SELECT  id, address, jobtitle, GETDATE() as logdate
 FROM
 (
   MERGE  gtc_voters v

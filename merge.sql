@@ -13,15 +13,15 @@ SELECT  id, address, jobtitle, GETDATE() as logdate
 FROM
 (
   MERGE  gtc_voters v
-  USING  gtc_voters_updated as stg
-  ON v.id = stg.id
-  WHEN MATCHED AND DATEDIFF(day, v.updatedate, stg.updatedate) > 0  THEN 
+  USING  gtc_voters_updated as src
+  ON v.id = src.id
+  WHEN MATCHED AND DATEDIFF(day, v.updatedate, src.updatedate) > 0  THEN 
 	UPDATE SET 
-		v.address = stg.address,
-		v.jobtitle = stg.jobtitle,
-  		v.updatedate = stg.updatedate
+		v.address = src.address,
+		v.jobtitle = src.jobtitle,
+  		v.updatedate = src.updatedate
   WHEN NOT MATCHED THEN
-	INSERT VALUES (stg.id, stg.address, stg.jobtitle, stg.updatedate)
+	INSERT VALUES (src.id, src.address, src.jobtitle, src.updatedate)
   WHEN NOT MATCHED BY SOURCE THEN
         DELETE
   OUTPUT $action, Deleted.id, Deleted.Address, Deleted.JobTitle 

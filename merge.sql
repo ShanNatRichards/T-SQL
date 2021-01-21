@@ -1,7 +1,12 @@
-#create an audit table which will store any removals
+/*
+Description: Script for running on merge on 2 tables gtc_voters and gtc_voters_updated.
+Output any removals from the voters list to an audit table called voters_removed
+*/
+
+--create an audit table which will store any removals
 CREATE TABLE  voters_removed (id int, address varchar(100), jobtitle varchar(50), logdate DATETIME) ;
 
-
+-----
 
 INSERT INTO voters_removed
 SELECT  id, address, jobtitle, GETDATE() as logdate
